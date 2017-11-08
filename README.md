@@ -122,8 +122,9 @@ const config = {
 	},
 }
 ```
-## 终端输出stdout支持友好格式。不保证性能, 建议只在开发环境开启pretty, 在生产环境关闭(或者设置logLevel4console为error以上)
+## stdout suport pretty format
 ```js
+// 不保证性能, 建议只在开发环境开启pretty, 在生产环境关闭(或者设置logLevel4console为error以上)
 // 设置pretty
 {
 	pretty: true // 格式化console输出日志, 方便查看
