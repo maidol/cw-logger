@@ -6,7 +6,7 @@ node test.js
 ```
 ## How to use
 ## Install
-To install via npm, [https://www.npmjs.com/package/cw-logger](https://www.npmjs.com/package/cw-logger)
+To install via [npm](https://www.npmjs.com/package/cw-logger)
 
 ```bash
 npm install cw-logger --save
