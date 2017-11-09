@@ -73,7 +73,7 @@ appLogger.error(new Error('error appLogger'));
 
 ## elk logstash suport
 
-在测试环境配置logstash, 启用logstash收集日志 enableLogstash4console: true; 查看日志的地址[http://elk.internal.jiaofucloud.cn](http://elk.internal.jiaofucloud.cn)
+在测试环境配置logstash, 启用logstash收集日志 enableLogstash4console: true; 查看日志的地址[日志的地址elk](http://elk.internal.jiaofucloud.cn)
 ```javascript
 const name = 'cw-api-gateway'; // 根据实际情况可定义为项目名称
 const config = {
