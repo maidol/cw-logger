@@ -1,16 +1,22 @@
 ## [git repository](https://github.com/maidol/cw-logger)
+
 ## cw logger sample
+
 ```bash
 cd sample
 node test.js
 ```
+
 ## How to use
+
 ## Install
+
 To install via [npm](https://www.npmjs.com/package/cw-logger)
 
 ```bash
 npm install cw-logger --save
 ```
+
 ## Using
 
 ```javascript
@@ -66,7 +72,8 @@ appLogger.error(new Error('error appLogger'));
 ```
 
 ## elk logstash suport
-在测试环境配置logstash, 启用logstash收集日志 enableLogstash4console: true; 所有日志统一收集到e; 查看日志的地址[http://elk.internal.jiaofucloud.cn](http://elk.internal.jiaofucloud.cn)
+
+在测试环境配置logstash, 启用logstash收集日志 enableLogstash4console: true; 查看日志的地址[http://elk.internal.jiaofucloud.cn](http://elk.internal.jiaofucloud.cn)
 ```javascript
 const name = 'cw-api-gateway'; // 根据实际情况可定义为项目名称
 const config = {
@@ -122,7 +129,9 @@ const config = {
 	},
 }
 ```
+
 ## stdout suport pretty format
+
 ```js
 // 不保证性能, 建议只在开发环境开启pretty, 在生产环境关闭(或者设置logLevel4console为error以上)
 // 设置pretty
@@ -130,3 +139,7 @@ const config = {
 	pretty: true // 格式化console输出日志, 方便查看
 }
 ```
+
+## License
+
+[MIT](./LICENSE.txt).
