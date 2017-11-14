@@ -15,11 +15,13 @@ module.exports = {
 				name: 'console',
 				type: 'console',
 				logLevel4console: 'debug',
-				pretty: true // 格式化console输出日志, 方便查看
+				pretty: true, // 格式化console输出日志, 方便查看
+				src: true // 开启代码行定位
 			},{
 				name: 'app', // 模块/分类
 				type: 'rotatingFile',
 				pretty: true, // 格式化console输出日志, 方便查看
+				src: false, // 开启代码行定位
 				// logLevel: 'info',
 				// logLevel4console: 'error',
 				rotateConfig: {

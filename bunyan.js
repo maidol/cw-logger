@@ -25,7 +25,7 @@ var getLogger4logstashUDP = function (category, options) {
       stream: bunyan4udp.createStream(logstashConfig.udp)
     }],
     level: options.logLevel || config.logLevel || 'info',
-    src: true
+    src: options.src
   });
 }
 
@@ -43,7 +43,7 @@ var getLogger4logstashTCP = function (category, options) {
       stream: bunyan4tcp.createStream(logstashConfig.tcp)
     }],
     level: options.logLevel || config.logLevel || 'info',
-    src: true
+    src: options.src
   });
 }
 
@@ -78,7 +78,7 @@ var getLogger4Rotating = function (category, options, logstashOpts) {
         stream: options.pretty ? prettyStdOut : process.stdout
       }],
       level: options.logLevel || config.logLevel || 'info',
-      src: true
+      src: options.src
     });
   }
 
@@ -124,7 +124,7 @@ var getLogger4Rotating = function (category, options, logstashOpts) {
       // }
     ],
     level: options.logLevel || config.logLevel || 'info',
-    src: true
+    src: options.src
   });
 }
 
