@@ -3,9 +3,14 @@ const CwLogger = require('../index');
 let log = new CwLogger(config);
 // log = new CwLogger(config);
 // log = new CwLogger(config);
-const myConsoleLogger = log.console;
-const loginLogger = log.login;
-const appLogger = log.app;
+
+// const myConsoleLogger = log.console;
+// const loginLogger = log.login;
+// const appLogger = log.app;
+
+const myConsoleLogger = log.getLogger('console');
+const loginLogger = log.getLogger('login');
+const appLogger = log.getLogger('app');
 
 myConsoleLogger.debug('debug');
 loginLogger.debug('debug');
