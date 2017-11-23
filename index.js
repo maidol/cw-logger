@@ -14,6 +14,11 @@ class CwLogger {
 		return this._create(opts);
 	}
 
+	getLogger(name){
+		if(!CwLogger._log[name]) throw new Error(`名称为${name}的logger未配置`);
+		return CwLogger._log[name];
+	}
+
 	_create(opts) {
 		if (CwLogger._log) return CwLogger._log;
 

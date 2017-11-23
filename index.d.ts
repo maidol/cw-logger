@@ -3,16 +3,24 @@
  */
 declare class CwLogger {
 
-  static _log: CwLogger;
-
-  /**
-   * 创建
-   */
-  _create(config: Object): CwLogger;
-
   private constructor(config: Object);
 
+  /**
+   * 获取
+   * @param name 
+   */
+  getLogger(name: String): Logger;
+
 }
-export = CwLogger;
+
+declare interface Logger {
+
+  info(): void;
+
+  warn(): void;
+
+}
+
+export = CwLogger; 
 
 declare module CwLogger { }
