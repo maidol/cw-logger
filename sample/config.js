@@ -1,7 +1,7 @@
 "use strict";
-var path = require('path');
+let path = require('path');
 
-// var workerId4prefix = process.env.pm_id === undefined ?
+// let workerId4prefix = process.env.pm_id === undefined ?
 // "" : process.env.pm_id + "-"; // sample: workerId4prefix = '1-' or ''
 
 module.exports = {

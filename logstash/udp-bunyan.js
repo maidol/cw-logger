@@ -1,10 +1,10 @@
-var bunyan = require('bunyan');
-var extend = require('extend');
-var os     = require('os');
-var dgram  = require('dgram');
+let bunyan = require('bunyan');
+let extend = require('extend');
+let os     = require('os');
+let dgram  = require('dgram');
 
 // used to throttle errors loggings when sending fails
-var lastErrorTimestamp;
+let lastErrorTimestamp;
 
 function clone(obj, depth) {
   // we only need to clone reference types (Object)
@@ -14,8 +14,8 @@ function clone(obj, depth) {
     return obj;
   }
 
-  var copy = {};
-  for (var i in obj) {
+  let copy = {};
+  for (let i in obj) {
     if (Array.isArray(obj[i])) {
       copy[i] = obj[i].slice(0);
     }
@@ -49,7 +49,7 @@ function LogstashStream(options) {
   this.client = null;
 }
 
-var levels = {
+let levels = {
   10: 'trace',
   20: 'debug',
   30: 'info',
@@ -63,7 +63,7 @@ function createLogstashStream(options) {
 };
 
 LogstashStream.prototype.write = function logstashWrite(entry) {
-  var level, rec, msg;
+  let level, rec, msg;
 
   if (typeof(entry) === 'string') {
     entry = JSON.parse(entry);
@@ -103,13 +103,13 @@ LogstashStream.prototype.write = function logstashWrite(entry) {
 };
 
 LogstashStream.prototype.send = function logstashSend(message) {
-  var self = this;
-  var buf = new Buffer(message);
+  let self = this;
+  let buf = new Buffer(message);
 
   if (! self.client) {
     self.client = dgram.createSocket('udp4');
     self.client.on("error", function (err) {
-      var currentTimestamp = new Date().getTime()
+      let currentTimestamp = new Date().getTime()
       if (!lastErrorTimestamp || currentTimestamp - lastErrorTimestamp > 10000) {
         lastErrorTimestamp = currentTimestamp;
         console.log("bunyan-logstash socket connection error: " + err);

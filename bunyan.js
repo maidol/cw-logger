@@ -1,17 +1,17 @@
-var config;
-var logstashConfig;
-var bunyan = require('bunyan')
-// var bformat = require('bunyan-format')  
-// var prettyformatOut = bformat({ outputMode: 'short' });
-var PrettyStream = require('bunyan-prettystream');
-var prettyStdOut = new PrettyStream();
+let config;
+let logstashConfig;
+const bunyan = require('bunyan')
+// let bformat = require('bunyan-format')  
+// let prettyformatOut = bformat({ outputMode: 'short' });
+const PrettyStream = require('bunyan-prettystream');
+const prettyStdOut = new PrettyStream();
 prettyStdOut.pipe(process.stdout);
 
-var bunyan4udp = require('./logstash/udp-bunyan');
-var bunyan4tcp = require('./logstash/tcp-bunyan');
-var RotatingFileStream = require('bunyan-rotating-file-stream');
+const bunyan4udp = require('./logstash/udp-bunyan');
+const bunyan4tcp = require('./logstash/tcp-bunyan');
+const RotatingFileStream = require('bunyan-rotating-file-stream');
 
-var getLogger4logstashUDP = function (category, options) {
+const getLogger4logstashUDP = function (category, options) {
   options = options || {};
   return bunyan.createLogger({
     name: category || 'logstash_udp',
@@ -29,7 +29,7 @@ var getLogger4logstashUDP = function (category, options) {
   });
 }
 
-var getLogger4logstashTCP = function (category, options) {
+const getLogger4logstashTCP = function (category, options) {
   options = options || {};
   return bunyan.createLogger({
     name: category || 'logstash_tcp',
@@ -47,16 +47,16 @@ var getLogger4logstashTCP = function (category, options) {
   });
 }
 
-var getLogger4Rotating = function (category, options, logstashOpts) {
-  var workerId4prefix = config.workerId4prefix || ( process.env.pm_id === undefined ?
+const getLogger4Rotating = function (category, options, logstashOpts) {
+  let workerId4prefix = config.workerId4prefix || ( process.env.pm_id === undefined ?
     "" : process.env.pm_id + "-" ); // sample: workerId4prefix = '1-' or ''
   options = options || {};
   category = category || 'rotation';
   logstashOpts = logstashOpts || {};
-  var rotateConfig = options.rotateConfig || {};
+  let rotateConfig = options.rotateConfig || {};
 
   if (logstashOpts.enableLogstash4console) {
-    var bunyan4logstash = getLogger4logstashUDP(category, options);;
+    let bunyan4logstash = getLogger4logstashUDP(category, options);;
     switch (logstashOpts.currentLogstashInput) {
       case 'tcp':
         bunyan4logstash = getLogger4logstashTCP(category, options);
@@ -107,21 +107,7 @@ var getLogger4Rotating = function (category, options, logstashOpts) {
           // totalSize: '20m', // Don't keep more than 20mb of archived log files
           gzip: false // Compress the archive log files to save space
         })
-      },
-      // {
-      //   type: 'raw',
-      //   level: 'error',
-      //   stream: new RotatingFileStream({
-      //     path: rotateConfig.path ?  `${rotateConfig.path}/error/${workerId4prefix}%Y-%m-%d.log` : `logs/${category}/error/${workerId4prefix}%Y-%m-%d.log`,
-      //     // path: 'logs/ex.%Y-%m-%d %H:%M:%S.log',
-      //     period: rotateConfig.period || '1d', // rotation
-      //     totalFiles: rotateConfig.totalFiles || 15, // keep 10 back copies
-      //     rotateExisting: true, // Give ourselves a clean file when we start up, based on period
-      //     threshold: rotateConfig.threshold || '100m', // Rotate log files larger than 10 megabytes
-      //     // totalSize: '20m', // Don't keep more than 20mb of archived log files
-      //     gzip: false // Compress the archive log files to save space
-      //   })
-      // }
+      }
     ],
     level: options.logLevel || config.logLevel || 'info',
     src: options.src
