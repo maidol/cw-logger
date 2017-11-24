@@ -3,21 +3,23 @@
  */
 declare class CwLogger {
 
-  private constructor(config: Object);
+ constructor(config: Object);
 
   /**
-   * 获取
+   * 获取logger
    * @param name 
    */
-  getLogger(name: String): Logger;
+ getLogger(name: String): Logger;
 
 }
 
 declare interface Logger {
 
-  info(): void;
+  debug(...args): void;
 
-  warn(): void;
+  info(...args): void;
+
+  error(...args): void;
 
 }
 

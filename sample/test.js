@@ -1,12 +1,6 @@
 const config = require('./config');
 const CwLogger = require('../index');
-let log = new CwLogger(config);
-// log = new CwLogger(config);
-// log = new CwLogger(config);
-
-// const myConsoleLogger = log.console;
-// const loginLogger = log.login;
-// const appLogger = log.app;
+const log = new CwLogger(config);
 
 const myConsoleLogger = log.getLogger('console');
 const loginLogger = log.getLogger('login');
