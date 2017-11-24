@@ -8,14 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maidol/cw-logger"
+    "url": "https://github.com/maidol/cw-logger/tree/es6"
   },
   "keywords": [
     "log",
     "nodejs",
     "bunyan",
     "pretty",
-    "logstash"
+    "logstash",
+    "es6",
+    "ts"
   ],
   "author": "maifuquan",
   "license": "ISC",

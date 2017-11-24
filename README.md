@@ -1,6 +1,6 @@
 ## [git repository](https://github.com/maidol/cw-logger)
 
-## cw logger sample
+## cw logger2 sample (es6分支)
 
 ```bash
 cd sample
@@ -11,10 +11,10 @@ node test.js
 
 ## Install
 
-To install via [npm](https://www.npmjs.com/package/cw-logger)
+To install via [npm](https://www.npmjs.com/package/cw-logger2)
 
 ```bash
-npm install cw-logger --save
+npm install cw-logger2 --save
 ```
 
 ## Using
@@ -59,10 +59,12 @@ const config = {
 		]
 	}
 };
-const log = require('cw-logger')(config);
-const myConsoleLogger = log.console;
-const loginLogger = log.login;
-const appLogger = log.app;
+const CwLogger = require('cw-logger2');
+const log = new CwLogger(config);
+
+const myConsoleLogger = log.getLogger('console');
+const loginLogger = log.getLogger('login');
+const appLogger = log.getLogger('app');
 
 myConsoleLogger.info('info');
 loginLogger.info('info');
