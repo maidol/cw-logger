@@ -1,4 +1,4 @@
-## [git repository](https://github.com/maidol/cw-logger)
+## [git repository](https://github.com/maidol/cw-logger/tree/es6)
 
 ## cw logger2 sample (es6分支)
 
