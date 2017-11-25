@@ -14,9 +14,19 @@ class CwLogger {
 		return this._create(opts);
 	}
 
-	getLogger(name){
-		if(!CwLogger._log[name]) throw new Error(`名称为${name}的logger未配置`);
-		return CwLogger._log[name];
+	getLogger(name) {
+		if (!CwLogger._log[`_${name}`]) throw new Error(`名称为${name}的logger未配置`);
+		return CwLogger._log[`_${name}`];
+	}
+
+	get console() {
+		if (!CwLogger._log['_console']) throw new Error(`名称为console的logger未配置`);
+		return CwLogger._log['_console'];
+	}
+
+	get app() {
+		if (!CwLogger._log['_app']) throw new Error(`名称为app的logger未配置`);
+		return CwLogger._log['_app'];
 	}
 
 	_create(opts) {
@@ -34,7 +44,7 @@ class CwLogger {
 				enableLogstash4console: cw_options.enableLogstash4console,
 				currentLogstashInput: cw_options.currentLogstashInput
 			});
-			this[item.name] = l;
+			this[`_${item.name}`] = l;
 		});
 
 		CwLogger._log = this;

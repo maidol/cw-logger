@@ -11,6 +11,9 @@ declare class CwLogger {
    */
  getLogger(name: String): Logger;
 
+ get console(): Logger;
+ get app(): Logger;
+
 }
 
 declare interface Logger {

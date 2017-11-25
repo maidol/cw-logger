@@ -18,6 +18,8 @@ npm install cw-logger2 --save
 ```
 
 ## Using
+------
+默认提供名称为console和app的logger的访问属性, 其他自定义名称的logger通过log.getLogger(${name})获取
 
 ```javascript
 const config = {
@@ -62,17 +64,21 @@ const config = {
 const CwLogger = require('cw-logger2');
 const log = new CwLogger(config);
 
-const myConsoleLogger = log.getLogger('console');
+// const myConsoleLogger = log.getLogger('console');
+// const appLogger = log.getLogger('app');
+// const loginLogger = log.getLogger('login');
+
+const myConsoleLogger = log.console;
+const appLogger = log.app;
 const loginLogger = log.getLogger('login');
-const appLogger = log.getLogger('app');
 
 myConsoleLogger.info('info');
-loginLogger.info('info');
 appLogger.info('info');
+loginLogger.info('info');
 
 myConsoleLogger.error(new Error('error myConsoleLogger'));
-loginLogger.error(new Error('error loginLogger'));
 appLogger.error(new Error('error appLogger'));
+loginLogger.error(new Error('error loginLogger'));
 ```
 
 ## elk logstash suport
