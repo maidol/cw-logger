@@ -124,7 +124,7 @@ const config = {
 			}
 		]
 	},
-	enableLogstash4console: true, // 使用elk收集日志, 依赖enableBunyan
+	enableLogstash4console: true, // 使用elk收集日志
 	currentLogstashInput: 'tcp', // tcp数据包(相比udp, 大小默认无限制)
 	logstash: {
 		type: name + (process.env.SITE_DOMAIN ? `-${process.env.SITE_DOMAIN}` : ''),
