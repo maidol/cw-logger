@@ -17,13 +17,12 @@ declare class CwLogger {
 }
 
 declare interface Logger {
-
+  trace(...args): void;
   debug(...args): void;
-
   info(...args): void;
-
+  warn(...args): void;
   error(...args): void;
-
+  fatal(...args): void;
 }
 
 export = CwLogger; 
