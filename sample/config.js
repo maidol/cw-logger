@@ -60,6 +60,8 @@ module.exports = {
 	},
 	enableKafka: true, // 优先开启(kafka - logstash)
 	kafka: {
+		logproject: 'epaper',
+		logstore: 'cw-logger',
 		topic: 'cw-logger',
 		opts: {
 			'sasl_plain_username': process.env.KAFKA_SASL_PLAIN_USERNAME,

@@ -58,6 +58,8 @@ function createKafkaProducer(opts) {
 
 class KafkaStream extends EventEmitter {
   constructor({
+    logproject,
+    logstore,
     topic,
     opts
   }) {
@@ -75,6 +77,8 @@ class KafkaStream extends EventEmitter {
       throw new Error('KafkaStream must have a topic');
     }
 
+    this.logproject = logproject;
+    this.logstore = logstore;
     this.topic = topic;
     this.opts = opts;
 
@@ -94,6 +98,9 @@ class KafkaStream extends EventEmitter {
   // }
 
   write(record) {
+    record.logproject = this.logproject;
+    record.logstore = this.logstore;
+    record.topic = this.topic;
     // 发消息
     try {
       this.producer.produce(
