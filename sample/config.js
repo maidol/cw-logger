@@ -58,4 +58,13 @@ module.exports = {
 		  type: 'cw-api-gateway' + (process.env.SITE_DOMAIN ? `-${process.env.SITE_DOMAIN}` : '')
 		}
 	},
+	enableKafka: true, // 优先开启(kafka - logstash)
+	kafka: {
+		topic: 'cw-logger',
+		opts: {
+			'sasl_plain_username': process.env.KAFKA_SASL_PLAIN_USERNAME,
+			'sasl_plain_password': process.env.KAFKA_SASL_PLAIN_PASSWORD,
+			'bootstrap_servers': ["kafka-ons-internet.aliyun.com:8080"],
+		},
+	},
 };

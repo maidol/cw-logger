@@ -47,17 +47,41 @@ const getLogger4logstashTCP = function (category, options) {
   });
 }
 
-const getLogger4Rotating = function (category, options, logstashOpts) {
-  let workerId4prefix = config.workerId4prefix || ( process.env.pm_id === undefined ?
-    "" : process.env.pm_id + "-" ); // sample: workerId4prefix = '1-' or ''
+const getLogger4Kafka = function (category, options, kafkaConfig) {
+  const KafkaStream = require('./kafka');
+  kafkaConfig = kafkaConfig || {};
+  kafkaConfig.topic = kafkaConfig.topic || 'cw-logger';
+  return bunyan.createLogger({
+    name: category || 'kafka',
+    streams: [{
+      level: options.logLevel4console || config.logLevel4console || 'info',
+      stream: options.pretty ? prettyStdOut : process.stdout
+    }, {
+      level: options.logLevel || config.logLevel || 'info',
+      type: "raw",
+      stream: new KafkaStream(kafkaConfig),
+    }],
+    level: options.logLevel || config.logLevel || 'info',
+    src: options.src
+  });
+}
+
+const getLogger4Rotating = function (category, options, globalOpts) {
+  let workerId4prefix = config.workerId4prefix || (process.env.pm_id === undefined ?
+    "" : process.env.pm_id + "-"); // sample: workerId4prefix = '1-' or ''
   options = options || {};
   category = category || 'rotation';
-  logstashOpts = logstashOpts || {};
+  globalOpts = globalOpts || {};
   let rotateConfig = options.rotateConfig || {};
 
-  if (logstashOpts.enableLogstash4console) {
+  // 优先kafka
+  if (globalOpts.enableKafka) {
+    return getLogger4Kafka(category, options, globalOpts.kafka);
+  }
+
+  if (globalOpts.enableLogstash4console) {
     let bunyan4logstash = getLogger4logstashUDP(category, options);;
-    switch (logstashOpts.currentLogstashInput) {
+    switch (globalOpts.currentLogstashInput) {
       case 'tcp':
         bunyan4logstash = getLogger4logstashTCP(category, options);
         break;

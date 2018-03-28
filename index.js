@@ -43,10 +43,7 @@ class CwLogger {
 		initLogDir(cw_options.logRoot); // 日志根目录
 
 		categorys.forEach(item => {
-			let l = bunyan.rotating(item.name, item, {
-				enableLogstash4console: cw_options.enableLogstash4console,
-				currentLogstashInput: cw_options.currentLogstashInput
-			});
+			let l = bunyan.rotating(item.name, item, cw_options);
 			this[`_${item.name}`] = l;
 		});
 
