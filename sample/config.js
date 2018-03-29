@@ -58,7 +58,7 @@ module.exports = {
 		  type: 'cw-api-gateway' + (process.env.SITE_DOMAIN ? `-${process.env.SITE_DOMAIN}` : '')
 		}
 	},
-	enableKafka: true, // 优先开启(kafka - logstash)
+	enableKafka: false, // 优先开启(kafka - logstash)
 	kafka: {
 		logproject: 'epaper',
 		logstore: 'cw-logger',

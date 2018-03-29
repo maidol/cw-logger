@@ -2,6 +2,8 @@
 
 ## cw logger2 sample (es6分支)
 
+## cw-logger2@3.0.0 支持阿里云kafka
+
 ```bash
 cd sample
 node test.js
