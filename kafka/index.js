@@ -3,12 +3,27 @@
 const CBuffer = require('CBuffer');
 const Kafka = require('node-rdkafka');
 const EventEmitter = require('events').EventEmitter;
+const levels = new Map([
+  [10, 'trace'],
+  [20, 'debug'],
+  [30, 'info'],
+  [40, 'warn'],
+  [50, 'error'],
+  [60, 'fatal']
+]);
+
 console.log('Kafka.librdkafka:', Kafka.librdkafkaVersion, Kafka.features);
 
 class KafkaStream extends EventEmitter {
   constructor(config) {
     super();
-    let { logproject, logstore, topic, cbuffer_size, opts } = config;
+    let {
+      logproject,
+      logstore,
+      topic,
+      cbuffer_size,
+      opts
+    } = config;
     if (!opts) {
       throw new Error('Kafka options must be provided');
     }
@@ -47,7 +62,7 @@ class KafkaStream extends EventEmitter {
   //   };
   // }
 
-  createKafkaProducer(){
+  createKafkaProducer() {
     console.log('KafkaStream createKafkaProducer', this.opts, 'ssl_ca_location:', this.opts['ssl_ca_location'] || __dirname + '/ca-cert');
 
     const producer = new Kafka.Producer({
@@ -62,29 +77,29 @@ class KafkaStream extends EventEmitter {
       'sasl.username': this.opts['sasl_plain_username'],
       'sasl.password': this.opts['sasl_plain_password']
     });
-  
+
     // Wait for the ready event before proceeding
     producer.on('ready', () => {
       this.connected = true;
       console.log("kafka producter connect ok");
       this.flush();
     });
-  
+
     producer.on("disconnected", () => {
       this.connected = false;
       console.log("kafka producter disconnected");
       //断线自动重连
       producer.connect();
     })
-  
+
     producer.on('event.log', (event) => {
       console.log("event.log", event);
     });
-  
+
     producer.on("error", (error) => {
       console.log("error:" + error);
     });
-  
+
     producer.on('delivery-report', (err, report) => {
       //消息发送成功，这里会收到report
       console.log("delivery-report: producer ok");
@@ -94,13 +109,13 @@ class KafkaStream extends EventEmitter {
     producer.on('event.error', (err) => {
       console.error('event.error:' + err);
     });
-  
+
     // Poll for events every 100 ms
     producer.setPollInterval(100);
-  
+
     // Connect to the broker manually
     producer.connect();
-  
+
     this.producer = producer;
   }
 
@@ -108,6 +123,34 @@ class KafkaStream extends EventEmitter {
     record.logproject = this.logproject;
     record.logstore = this.logstore;
     record.topic = this.topic;
+    
+    if (record.time) {
+      record['@timestamp'] = new Date(record.time).toISOString();
+    } else {
+      record['@timestamp'] = new Date(Date.now()).toISOString();
+    }
+    if (levels.has(record.level)) {
+      record.level = levels.get(record.level);
+    } else {
+      record.level = 'UNKNOWN';
+    }
+
+    delete record.time;
+    delete record.v;
+    
+    for (const key in record) {
+      if (record.hasOwnProperty(key)) {
+        const value = record[key];
+        if (typeof value === 'number') {
+          record[key] = value.toString();
+          continue;
+        }
+        if (typeof value === 'object') {
+          record[key] = JSON.stringify(value);
+          continue;
+        }
+      }
+    }
     const message = JSON.stringify(record);
     if (!this.connected) {
       console.log('Kafka Producer not connected');

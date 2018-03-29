@@ -10,20 +10,18 @@ const myConsoleLogger = log.console;
 const appLogger = log.app;
 const loginLogger = log.getLogger('login');
 
-setInterval(()=>{
-  myConsoleLogger.debug('debug');
-  appLogger.debug('debug');
-  loginLogger.debug('debug');
+myConsoleLogger.debug('debug');
+appLogger.debug('debug');
+loginLogger.debug('debug');
 
-  myConsoleLogger.info('info');
-  appLogger.info('info');
-  loginLogger.info('info');
+myConsoleLogger.info('info');
+appLogger.info('info');
+loginLogger.info('info');
 
-  myConsoleLogger.error('error');
-  appLogger.error('error');
-  loginLogger.error('error');
+myConsoleLogger.error('error');
+appLogger.error('error');
+loginLogger.error('error');
 
-  myConsoleLogger.error(new Error('error'));
-  appLogger.error(new Error('error'));
-  loginLogger.error(new Error('error'));
-}, 5000);
+myConsoleLogger.error(new Error('error'));
+appLogger.error(new Error('error'));
+loginLogger.error(new Error('error'));
