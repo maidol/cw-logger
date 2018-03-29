@@ -2,8 +2,11 @@
 
 const Kafka = require('node-rdkafka');
 const EventEmitter = require('events').EventEmitter;
+console.log('Kafka.librdkafka:', Kafka.librdkafkaVersion, Kafka.features);
 
-function createKafkaProducer(opts) {
+function createKafkaProducer(opts, target) {
+  console.log('KafkaStream createKafkaProducer', opts, 'ssl_ca_location:', opts['ssl_ca_location'] || __dirname + '/ca-cert');
+
   const producer = new Kafka.Producer({
     /*'debug': 'all', */
     'api.version.request': 'true',
@@ -11,27 +14,21 @@ function createKafkaProducer(opts) {
     'dr_cb': true,
     'dr_msg_cb': true,
     'security.protocol': 'sasl_ssl',
-    'ssl.ca.location': './ca-cert',
+    'ssl.ca.location': opts['ssl_ca_location'] || __dirname + '/ca-cert',
     'sasl.mechanisms': 'PLAIN',
     'sasl.username': opts['sasl_plain_username'],
     'sasl.password': opts['sasl_plain_password']
   });
 
-  let connected = false;
-  // Poll for events every 100 ms
-  producer.setPollInterval(100);
-
-  // Connect to the broker manually
-  producer.connect();
-
   // Wait for the ready event before proceeding
   producer.on('ready', function () {
-    connected = true;
+    target.connected = true;
     console.log("kafka producter connect ok");
   });
 
   producer.on("disconnected", function () {
-    connected = false;
+    target.connected = false;
+    console.log("kafka producter disconnected");
     //断线自动重连
     producer.connect();
   })
@@ -51,7 +48,13 @@ function createKafkaProducer(opts) {
   // Any errors we encounter, including connection errors
   producer.on('event.error', function (err) {
     console.error('event.error:' + err);
-  })
+  });
+
+  // Poll for events every 100 ms
+  producer.setPollInterval(100);
+
+  // Connect to the broker manually
+  producer.connect();
 
   return producer;
 }
@@ -82,7 +85,9 @@ class KafkaStream extends EventEmitter {
     this.topic = topic;
     this.opts = opts;
 
-    this.producer = createKafkaProducer(this.opts);
+    this.connected = false;
+
+    this.producer = createKafkaProducer(this.opts, this);
   }
 
   // static roundRobinPartitioner() {
@@ -98,6 +103,10 @@ class KafkaStream extends EventEmitter {
   // }
 
   write(record) {
+    if (!this.connected) {
+      console.log('Kafka Producer not connected');
+      return;
+    }
     record.logproject = this.logproject;
     record.logstore = this.logstore;
     record.topic = this.topic;
