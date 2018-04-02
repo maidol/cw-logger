@@ -33,7 +33,8 @@ class KafkaStream extends EventEmitter {
     // }
 
     if (!topic) {
-      throw new Error('KafkaStream must have a topic');
+      topic = 'cw-logger';
+      // throw new Error('KafkaStream must have a topic');
     }
 
     this.config = config;
