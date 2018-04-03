@@ -154,6 +154,31 @@ const config = {
 }
 ```
 
+## aliyun kafka mq suport
+
+```javascript
+const config = {
+	logRoot: require('path').resolve(__dirname, './logs'), // 日志根目录(需根据实际情况设置)
+	logLevel: 'info', // file
+	logLevel4console: 'error', // console
+	...
+	...
+	...
+	enableKafka: true, // 会优先开启(kafka > logstash)
+	kafka: {
+		logproject: 'epaper',
+		logstore: 'cw-logger',
+		topic: 'cw-logger',
+		opts: {
+			'ssl_ca_location': __dirname + '/ca-cert',
+			'sasl_plain_username': process.env.KAFKA_SASL_PLAIN_USERNAME,
+			'sasl_plain_password': process.env.KAFKA_SASL_PLAIN_PASSWORD,
+			'bootstrap_servers': ["kafka-ons-internet.aliyun.com:8080"],
+		},
+	},
+}
+```
+
 ## License
 
 [MIT](./LICENSE.txt).
