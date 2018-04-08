@@ -14,12 +14,12 @@ declare class CwLogger {
  /**
   * 默认console属性
   */
- get console(): Logger;
+ console(): Logger;
 
  /**
   * 默认app属性
   */
- get app(): Logger;
+ app(): Logger;
 
 }
 
